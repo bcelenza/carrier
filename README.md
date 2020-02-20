@@ -8,7 +8,7 @@ That's all.
 
 ```bash
 make image
-docker run -it --rm --net host --env HTTP_PORT=80 carrier
+docker run -it --rm --net host --env HTTP_PORT=8080 carrier
 ```
 
 ## Examples
