@@ -27,6 +27,7 @@ func New(port, cert, key string) *HttpServer {
 
 func (h *HttpServer) Start() error {
 	http.HandleFunc("/", h.handleRequest)
+	http.HandleFunc("/ping", h.handlePing)
 	if h.TLSCertificateFile != "" && h.TLSKeyFile != "" {
 		log.Info("Certificate and key files provided, will serve TLS")
 		return http.ListenAndServeTLS(fmt.Sprintf(":%s", h.Port), h.TLSCertificateFile, h.TLSKeyFile, nil)
@@ -54,4 +55,8 @@ func (h *HttpServer) handleRequest(res http.ResponseWriter, req *http.Request) {
 	// Proxy the request
 	proxy := httputil.NewSingleHostReverseProxy(parsedTarget)
 	proxy.ServeHTTP(res, req)
+}
+
+func (h *HttpServer) handlePing(res http.ResponseWriter, req *http.Request) {
+	res.WriteHeader(200)
 }
